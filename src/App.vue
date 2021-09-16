@@ -1,30 +1,36 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="container">
+    <router-link to="/" class="home">🏠</router-link>
+    <router-view />
   </div>
-  <router-view/>
 </template>
 
-<style>
-#app {
+<style lang="scss">
+body {
+  background: #e8eaf6;
+}
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+* {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  overflow: hidden;
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
+.router-link-exact-active {
   color: #42b983;
+}
+
+.home {
+  position: absolute;
+  left: 20px;
+  top: 20px;
 }
 </style>
