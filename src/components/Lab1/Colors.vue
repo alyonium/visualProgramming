@@ -70,8 +70,8 @@ div {
 
 input[type='checkbox']:checked ~ div {
   color: #ba68c8;
-  text-shadow: 0 0 3px #ba68c8, 0 0 3px #ba68c8;
-  animation: changeColor 2s linear infinite;
+  text-shadow: 0 0 3px #ba68c8;
+  animation: changeColor 2s infinite;
 }
 
 @keyframes changeColor {
