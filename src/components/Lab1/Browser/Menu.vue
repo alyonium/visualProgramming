@@ -17,9 +17,11 @@
   </el-menu>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue';
 import { ElMenu, ElSubMenu, ElMenuItem } from 'element-plus';
+
+const CLOSE = '2-4';
 
 export default defineComponent({
   name: 'Menu',
@@ -30,8 +32,8 @@ export default defineComponent({
   },
   emits: ['handleSelect'],
   setup(props, { emit }) {
-    const handleSelect = (key) => {
-      if (key === '2-4') {
+    const handleSelect = (key: string) => {
+      if (key === CLOSE) {
         emit('handleSelect');
       }
     };

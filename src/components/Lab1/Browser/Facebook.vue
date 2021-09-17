@@ -5,7 +5,7 @@
         <div class="block">
           <el-avatar
             :size="100"
-            src="https://lh3.googleusercontent.com/proxy/UO3LdouDK4vJ2x-Dz36ZTJT7Ko-EP5cW36N58gQ-PvomE7u5ZgY4igtxKtrFLwWPCEEasEBjbBgp77WSFg_Bz_9iaUJUZWjniDH9U6pQlZIJd0iK9zDc-32LeGk"
+            src="https://cs7.pikabu.ru/images/big_size_comm/2019-09_5/1569036307112274735.jpg"
           ></el-avatar>
         </div>
       </div>
@@ -32,32 +32,13 @@
         placeholder="Что нового, Котёночек?"
         resize="none"
       ></el-input>
-      <el-button color="#e6ceff" class="add-button">Добавить</el-button>
+      <el-button color="#e6ceff" id="add-button">Добавить</el-button>
     </el-col>
   </el-row>
   <el-row class="wall" :gutter="24">
     <el-col :span="8" :offset="8">
-      <div class="post">
-        <div class="wall__name">
-          <el-avatar
-            :size="30"
-            src="https://lh3.googleusercontent.com/proxy/UO3LdouDK4vJ2x-Dz36ZTJT7Ko-EP5cW36N58gQ-PvomE7u5ZgY4igtxKtrFLwWPCEEasEBjbBgp77WSFg_Bz_9iaUJUZWjniDH9U6pQlZIJd0iK9zDc-32LeGk"
-          ></el-avatar>
-          <span>Котёночек</span>
-        </div>
-        <div>Я хочу спать</div>
-      </div>
-
-      <div class="post">
-        <div class="wall__name">
-          <el-avatar
-            :size="30"
-            src="https://lh3.googleusercontent.com/proxy/UO3LdouDK4vJ2x-Dz36ZTJT7Ko-EP5cW36N58gQ-PvomE7u5ZgY4igtxKtrFLwWPCEEasEBjbBgp77WSFg_Bz_9iaUJUZWjniDH9U6pQlZIJd0iK9zDc-32LeGk"
-          ></el-avatar>
-          <span>Котёночек</span>
-        </div>
-        <div>Я покушал</div>
-      </div>
+      <Post text="Я покушал"></Post>
+      <Post text="Я хочу спать"></Post>
     </el-col>
   </el-row>
 </template>
@@ -65,6 +46,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { ElRow, ElCol, ElAvatar } from 'element-plus';
+import Post from '@/components/Lab1/Browser/Post.vue';
 
 export default defineComponent({
   name: 'Facebook',
@@ -72,6 +54,7 @@ export default defineComponent({
     ElRow,
     ElCol,
     ElAvatar,
+    Post,
   },
   setup() {
     const news = ref('');
@@ -93,25 +76,9 @@ export default defineComponent({
 
 .wall {
   margin-top: 24px;
-
-  &__name {
-    display: flex;
-    align-items: center;
-
-    span {
-      margin-left: 8px;
-    }
-  }
-
-  & .post {
-    margin-bottom: 24px;
-    background: #e6ceff;
-    padding: 8px;
-    border-radius: 4px;
-  }
 }
 
-.add-button {
+#add-button {
   margin-top: 8px;
   background: #e6ceff;
 

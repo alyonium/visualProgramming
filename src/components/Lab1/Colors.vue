@@ -41,10 +41,6 @@ ul {
   display: flex;
 }
 
-li {
-  list-style: none;
-}
-
 input[type='checkbox'] {
   position: relative;
   opacity: 0;

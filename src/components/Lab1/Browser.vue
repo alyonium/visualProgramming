@@ -36,7 +36,6 @@ export default defineComponent({
     };
 
     const removeTab = (targetTab) => {
-      console.log(targetTab, currentTab.value);
       if (targetTab === '1') {
         tabs.value.facebook = false;
       } else {

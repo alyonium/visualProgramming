@@ -29,16 +29,6 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'SpaceX',
-  props: {
-    label: {
-      type: String,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-  },
 });
 </script>
 

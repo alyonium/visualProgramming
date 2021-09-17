@@ -13,14 +13,3 @@ export default defineComponent({
   name: 'Home',
 });
 </script>
-
-<style lang="scss">
-a {
-  text-decoration: none;
-  font-size: 28px;
-  &:hover {
-    color: #b39ddb;
-    transition: 1s;
-  }
-}
-</style>
