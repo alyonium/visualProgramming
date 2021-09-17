@@ -4,7 +4,13 @@
 
     <Menu @handleSelect="handleSelect" />
 
-    <Tabs @removeTab="removeTab" @updateCurrentTab="updateCurrentTab" :tabs="tabs" />
+    <Tabs
+      @removeTab="removeTab"
+      @updateCurrentTab="updateCurrentTab"
+      :tabs="tabs"
+      :modelValue="currentTab"
+      @update:modelValue="updateCurrentTab"
+    />
   </div>
 </template>
 
@@ -20,31 +26,35 @@ export default defineComponent({
     Tabs,
   },
   setup() {
-    const currentTab = ref('0');
+    const currentTab = ref('2');
 
     const tabs = ref({
       facebook: true,
       spacex: true,
     });
 
+    const updateCurrentTab = (newVal) => {
+      currentTab.value = newVal;
+    };
+
     const handleSelect = () => {
       if (currentTab.value === '1') {
         tabs.value.facebook = false;
+        updateCurrentTab('2');
       } else {
         tabs.value.spacex = false;
+        updateCurrentTab('1');
       }
     };
 
     const removeTab = (targetTab) => {
       if (targetTab === '1') {
         tabs.value.facebook = false;
+        updateCurrentTab('2');
       } else {
         tabs.value.spacex = false;
+        updateCurrentTab('1');
       }
-    };
-
-    const updateCurrentTab = (newVal) => {
-      currentTab.value = newVal;
     };
 
     return {

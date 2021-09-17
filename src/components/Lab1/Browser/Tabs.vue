@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { ref, watchEffect } from 'vue';
+import { computed } from 'vue';
 import { ElTabs } from 'element-plus';
 import Facebook from './Facebook.vue';
 import SpaceX from './SpaceX.vue';
@@ -27,16 +27,18 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    modelValue: String,
   },
   emits: ['removeTab', 'updateCurrentTab'],
   setup(props, { emit }) {
-    const currentTab = ref('2');
-
-    watchEffect(() => emit('updateCurrentTab', currentTab.value));
-
     const removeTab = (targetName) => {
       emit('removeTab', targetName);
     };
+
+    const currentTab = computed({
+      get: () => props.modelValue,
+      set: (value) => emit('update:modelValue', value),
+    });
 
     return {
       currentTab,
