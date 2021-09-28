@@ -1,10 +1,16 @@
-<template><span> lab2 </span></template>
+<template>
+  <Diary />
+</template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue';
+import Diary from '@/components/Lab2/Diary.vue';
 
 export default defineComponent({
   name: 'Lab2',
+  components: {
+    Diary,
+  },
 });
 </script>
 

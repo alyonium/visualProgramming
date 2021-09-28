@@ -17,11 +17,6 @@ const routes: Array<RouteRecordRaw> = [
     component: Lab1,
   },
   {
-    path: '/lab2',
-    name: 'Lab2',
-    component: Lab2,
-  },
-  {
     path: '/lab1/browser',
     name: 'Browser',
     component: Browser,
@@ -30,6 +25,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/lab1/colors',
     name: 'Colors',
     component: Colors,
+  },
+  {
+    path: '/lab2',
+    name: 'Lab2',
+    component: Lab2,
   },
 ];
 
