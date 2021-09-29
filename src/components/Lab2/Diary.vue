@@ -1,90 +1,111 @@
 <template>
   <div class="diary">
-    <div class="calendar-wrapper">
-      <ElCalendar v-model="selectedDay">
-        <template #dateCell="{ data }">
-          <div :class="checkIsDealsPlanned(data.date) ? 'planned' : ''"></div>
-          <p :class="data.isSelected ? 'is-selected' : ''">
-            {{ data.day.split('-')[2] }}
-            {{ data.isSelected ? '✔️' : '' }}
-          </p>
-        </template>
-      </ElCalendar>
-    </div>
-    <div class="deals">
-      <h1>Мои дела</h1>
-      <div v-if="checkIsDealsPlanned(selectedDay)">
-        <li v-for="deal in findedDay.works" :key="deal.title">
-          <h3>{{ deal.title }}</h3>
-          <span class="duration">
-            Начало: {{ convertTime(deal.start) }}, продолжительность: {{ deal.duration }}
-          </span>
-          <p class="message">{{ deal.text }}</p>
-        </li>
-      </div>
-      <div v-else>Ничего не запланировано =(</div>
-    </div>
+    <DiaryCalendar
+      @updateSelectedDay="updateSelectedDay"
+      :modelValue="selectedDay"
+      @update:modelValue="updateSelectedDay"
+      :diaryData="diaryData"
+    />
+    <DiaryDealsSide
+      :selectedDay="selectedDay"
+      :diaryData="diaryData"
+      :isEdit="isEdit"
+      @removeDeal="removeDeal"
+      @editDeal="editDeal"
+      @saveDeal="saveDeal"
+      @addDeal="addDeal"
+    />
   </div>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue';
-import { ElCalendar } from 'element-plus';
 import diary from './diary.json';
+import DiaryCalendar from '@/components/Lab2/DiaryCalendar.vue';
+import DiaryDealsSide from '@/components/Lab2/DiaryDealsSide.vue';
+import { convertDate } from '@/helpers/Diary/convertDate';
 
 export default defineComponent({
   name: 'Diary',
   components: {
-    ElCalendar,
+    DiaryCalendar,
+    DiaryDealsSide,
   },
+  emits: ['editDeal', 'removeDeal'],
   setup() {
     const diaryData = ref(diary);
     const selectedDay = ref(new Date());
-    const findedDay = ref({});
+    const isEdit = ref(false);
 
-    const convertDate = (date) => {
-      const currentDate = new Date(date);
-
-      const d = currentDate.getDate();
-      const m = currentDate.getMonth();
-      const y = currentDate.getFullYear();
-
-      return `${d}-${m + 1}-${y}`;
+    const updateSelectedDay = (newSelectedDay) => {
+      selectedDay.value = newSelectedDay;
     };
 
-    const convertTime = (date) => {
-      const currentDate = new Date(date);
-
-      const h = currentDate.getHours();
-      const m = currentDate.getMinutes();
-
-      if (m.toString().length === 1) {
-        return `${h}:0${m}`;
-      }
-      return `${h}:${m}`;
+    const editDeal = () => {
+      isEdit.value = true;
     };
 
-    const checkIsDealsPlanned = (day) => {
-      findedDay.value = diaryData.value.find((item) => {
-        return convertDate(item.date) === convertDate(day);
+    const saveDeal = (deal) => {
+      diaryData.value = diaryData.value.map((item) => {
+        const editedWorks = item.works.map((work) => {
+          if (work.id === deal.id) {
+            return deal;
+          }
+          return work;
+        });
+        return {
+          ...item,
+          works: editedWorks,
+        };
       });
 
-      return findedDay.value;
+      isEdit.value = false;
+    };
+
+    const addDeal = (deal) => {
+      const findedDay = diaryData.value.find(
+        (post) => convertDate(post.date) === convertDate(new Date(selectedDay.value).getTime())
+      );
+
+      if (findedDay) {
+        diaryData.value = diaryData.value.map((post) => {
+          if (convertDate(post.date) === convertDate(new Date(selectedDay.value).getTime())) {
+            post.works.push({ ...deal, id: 123 });
+          }
+          return post;
+        });
+      }
+      // TODO: id random, adding in empty day
+    };
+
+    const removeDeal = (deal) => {
+      diaryData.value = diaryData.value
+        .map((post) => {
+          const works = post.works.filter((item) => item.id !== deal.id);
+          return {
+            ...post,
+            works,
+          };
+        })
+        .filter((post) => !!post.works.length);
     };
 
     return {
       diaryData,
       selectedDay,
-      findedDay,
-      convertTime,
-      checkIsDealsPlanned,
-      convertDate,
+      isEdit,
+      updateSelectedDay,
+      editDeal,
+      removeDeal,
+      saveDeal,
+      addDeal,
     };
   },
 });
 </script>
 
 <style lang="scss">
+$purple: #9575cd;
 .diary {
   display: flex;
   width: 800px;
@@ -99,15 +120,15 @@ export default defineComponent({
 .deals {
   width: 50%;
   height: 100%;
-  background: #9575cd;
+  background: $purple;
 }
 
 .is-selected {
-  color: #9575cd;
+  color: $purple;
 }
 
 .planned {
-  background: #9575cd;
+  background: $purple;
   width: 10px;
   height: 10px;
   position: absolute;
@@ -120,8 +141,13 @@ export default defineComponent({
 
 .message {
   background: #d1c4e9;
-  margin: 10px 20px;
+  margin: 10px 45px;
   padding: 10px;
   border-radius: 4px;
+  width: 290px;
+}
+
+.addButton {
+  margin-top: 10px;
 }
 </style>
