@@ -4,18 +4,25 @@
     <ul v-if="findedDay || isAdding">
       <li v-if="isAdding">
         <div>
-          <el-input v-model="addingDeal.title" class="input head" />
+          <el-input v-model="addingDeal.title" class="input head" placeholder="Заголовок" />
         </div>
 
         <span class="duration">
           Начало:
-          <el-input v-model="addingDeal.start" class="input" />
+          <el-input v-model="addingDeal.start" class="input" placeholder="Время" />
           , продолжительность:
-          <el-input v-model="addingDeal.duration" class="input" />
+          <el-input v-model="addingDeal.duration" class="input" placeholder="Время" />
         </span>
         <span class="editButton" @click="addDeal">✓</span>
 
-        <el-input type="textarea" :rows="3" class="message" v-model="addingDeal.text" />
+        <el-input
+          type="textarea"
+          :rows="3"
+          class="message"
+          v-model="addingDeal.text"
+          placeholder="Что будем делать?"
+          resize="none"
+        />
       </li>
 
       <li v-else v-for="deal in findedDay.works" :key="deal.title">
@@ -75,7 +82,7 @@ export default defineComponent({
       return checkIsDealsPlanned(props.diaryData, props.selectedDay);
     });
 
-    const addingDeal = ref(emptyDeal);
+    const addingDeal = ref({ ...emptyDeal });
 
     const editDeal = (deal) => {
       emit('editDeal', deal);
@@ -92,7 +99,7 @@ export default defineComponent({
     const addDeal = () => {
       emit('addDeal', addingDeal.value);
       isAdding.value = false;
-      addingDeal.value = { ...emptyDeal, title: '' };
+      addingDeal.value = { ...emptyDeal };
     };
 
     return {

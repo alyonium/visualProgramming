@@ -1,26 +1,39 @@
 <template>
   <div>
     <h3 v-if="watching">{{ deal.title }}</h3>
-    <el-input v-if="editing" v-model="editedDeal.title" class="input head" />
+    <el-input
+      v-if="editing"
+      v-model="editedDeal.title"
+      class="input head"
+      placeholder="Заголовок"
+    />
   </div>
 
   <span class="duration">
     Начало:
     <span v-if="watching">{{ deal.start }}</span>
-    <el-input v-if="editing" v-model="editedDeal.start" class="input" />
+    <el-input v-if="editing" v-model="editedDeal.start" class="input" placeholder="Время" />
 
     , продолжительность:
     <span v-if="watching">{{ deal.duration }}</span>
-    <el-input v-if="editing" v-model="editedDeal.duration" class="input" />
+    <el-input v-if="editing" v-model="editedDeal.duration" class="input" placeholder="Время" />
   </span>
 
-  <span v-if="!isEdit" class="editButton" @click="editDeal(deal)"> ✎ </span>
+  <span v-if="!isEdit" class="editButton" @click="editDeal(deal)">✎</span>
   <span v-if="!isEdit" class="editButton" @click="removeDeal(deal)">✗</span>
 
   <span v-if="editing" class="editButton" @click="saveDeal(deal)">✓</span>
 
   <p v-if="watching" class="message">{{ deal.text }}</p>
-  <el-input v-if="editing" type="textarea" :rows="3" class="message" v-model="editedDeal.text" />
+  <el-input
+    v-if="editing"
+    type="textarea"
+    :rows="3"
+    class="message"
+    v-model="editedDeal.text"
+    placeholder="Что будем делать?"
+    resize="none"
+  />
 </template>
 
 <script>
@@ -80,6 +93,9 @@ export default defineComponent({
 .editButton {
   cursor: pointer;
   margin-left: 8px;
+  background: white;
+  padding: 4px;
+  border-radius: 3px;
 }
 
 .input {
