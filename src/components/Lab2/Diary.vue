@@ -33,6 +33,7 @@ export default defineComponent({
   },
   emits: ['editDeal', 'removeDeal'],
   setup() {
+    const idGenerator = ref(300);
     const diaryData = ref(diary);
     const selectedDay = ref(new Date());
     const isEdit = ref(false);
@@ -70,12 +71,16 @@ export default defineComponent({
       if (findedDay) {
         diaryData.value = diaryData.value.map((post) => {
           if (convertDate(post.date) === convertDate(new Date(selectedDay.value).getTime())) {
-            post.works.push({ ...deal, id: 123 });
+            post.works.push({ ...deal, id: idGenerator.value + 50 });
           }
           return post;
         });
+      } else {
+        diaryData.value.push({
+          date: new Date(selectedDay.value).getTime(),
+          works: [{ ...deal, id: idGenerator.value + 50 }],
+        });
       }
-      // TODO: id random, adding in empty day
     };
 
     const removeDeal = (deal) => {

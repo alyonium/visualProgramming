@@ -31,7 +31,7 @@
 
     <div v-else>Ничего не запланировано =(</div>
 
-    <el-button v-if="!isEdit || !isAdding" class="addButton" @click="isAdding = true">
+    <el-button v-if="!isEdit && !isAdding" class="addButton" @click="isAdding = true">
       Добавить
     </el-button>
   </div>
@@ -63,16 +63,19 @@ export default defineComponent({
   emits: ['editDeal', 'removeDeal', 'saveDeal'],
   setup(props, { emit }) {
     const isAdding = ref(false);
-    const findedDay = computed(() => {
-      return checkIsDealsPlanned(props.diaryData, props.selectedDay);
-    });
 
-    const addingDeal = ref({
+    const emptyDeal = {
       title: '',
       text: '',
       start: '',
       duration: '',
+    };
+
+    const findedDay = computed(() => {
+      return checkIsDealsPlanned(props.diaryData, props.selectedDay);
     });
+
+    const addingDeal = ref(emptyDeal);
 
     const editDeal = (deal) => {
       emit('editDeal', deal);
@@ -89,6 +92,7 @@ export default defineComponent({
     const addDeal = () => {
       emit('addDeal', addingDeal.value);
       isAdding.value = false;
+      addingDeal.value = { ...emptyDeal, title: '' };
     };
 
     return {
